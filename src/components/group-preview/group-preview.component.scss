@@ -1,0 +1,51 @@
+:host {
+  .participant-selector {
+    margin-bottom: 10px;
+  }
+
+  .resource-container {
+    background-image: radial-gradient(circle at 1px 1px, var(--shadow) var(--dot-radius, 1px), transparent 0);
+    background-position: var(--dot-offset-x, 0px) var(--dot-offset-y, 0px);
+    background-size: var(--dot-size, 30px) var(--dot-size, 30px);
+    border: 1px solid var(--shadow);
+    border-radius: 10px;
+    height: 500px;
+  }
+
+  .participant-row {
+    display: flex;
+    flex-wrap: wrap; // opcional si querés que se acomode en varias filas si no entra
+    gap: 25px;
+    margin-bottom: 10px;
+  }
+
+  .chip-with-drawing {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .counter {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+
+
+    &.vote {
+      background-color: #4CAF50;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      color: white;
+      border-radius: 50%;
+    }
+
+    &.post-it {
+      background-color: #ffeeb4;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+      transform: rotate(-2deg);
+      transition: transform 0.2s;
+    }
+  }
+}

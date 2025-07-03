@@ -1,0 +1,11 @@
+<button class="close-button" mat-mini-fab type="button" mat-dialog-close aria-label="Cerrar modal">
+    <mat-icon>close</mat-icon>
+</button>
+<div class="container">
+    <h2 mat-dialog-title>Confirmación</h2>
+    <mat-dialog-content class="text">{{ data.message }}</mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button class="cancel" mat-stroked-button (click)="cancel()">{{data.cancelText || 'No'}}</button>
+        <button class="confirm" mat-stroked-button color="warn" (click)="confirm()">{{data.confirmText || 'Sí'}}</button>
+    </mat-dialog-actions>
+</div>

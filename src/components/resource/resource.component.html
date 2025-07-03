@@ -1,0 +1,63 @@
+<div *ngIf="loading;else resourceContainer" class="loader" [ngStyle]="centerLoading"></div>
+
+<ng-template #resourceContainer>
+  <app-matrix
+    *ngIf="!!matrixResource"
+    [positioning]="positioning"
+    [postItContext]="postItContext"
+    [elements]="unpositionedElements"
+    [xLabel]="matrixResource.resource.xAxis || 'X'"
+    [yLabel]="matrixResource.resource.yAxis || 'Y'"
+    [collapsed]="collapsed"
+  />
+
+  <app-rotation
+    *ngIf="showPages"
+    [elements]="elements"
+    [positioning]="positioning"
+    [postItContext]="postItContext"
+    [participants]="group.participants"
+    [currentRotations]="currentResource.currentRotation || 0"
+  />
+
+  <button
+    mat-fab
+    *ngIf="!preview"
+    class="add-element-button"
+    aria-label="Crear elemento"
+    [ngStyle]=scaledButtonStyle
+    [disabled]="!canAddElements"
+    (click)="addElement()">
+
+    <mat-icon fontIcon="add" [ngStyle]=scaledIconStyle>Agregar</mat-icon>
+
+  </button>
+
+  <span *ngIf="!showPages" [ngClass]="{'grid': showAsGrid}" [ngStyle]="gridSize">
+    <app-post-it
+      *ngFor="let fullElement of elements"
+      [element]="fullElement.element"
+      [author]="fullElement.author"
+      [votes]="fullElement.votes"
+      [canVote]="canVote"
+      [preview]="preview"
+      [isOngoing]="isOngoing"
+      [drawAudio]="drawAudio"
+      [scale]="positioning.scale"
+      [groupReference]="groupReference"
+      [roleConfiguration]="roleConfiguration"
+      [selectedParticipant]="selectedParticipant"
+      [resourceConfiguration]="currentResourceTemplate.configuration"
+      [positioning]="positioning"
+      [layoutMode]="showAsGrid ? 'grid' : 'absolute'"
+    />
+  </span>
+  <div  *ngIf="currentResourceTemplate.configuration.canAddElements && !preview" matTooltip="Cantidad de post-its creados" class="post-it" [ngStyle]="scaledCounterStyle" [style.background]="color">
+    <span class="post-it-count" [ngStyle]=scaledPostItNumberStyle>{{ filterElements.length }}</span>
+  </div>
+
+  <div *ngIf="currentResourceTemplate.configuration.showOwnVotes && !preview" class="vote-star-icon" [ngStyle]=scaledVotesStyle matTooltip="Cantidad de votos realizados">
+    <mat-icon [ngStyle]=scaledVotesStyle>thumb_up</mat-icon>
+    <span class="vote-count" [ngStyle]=scaledIconStyle>{{ votes }}</span>
+  </div>
+</ng-template>

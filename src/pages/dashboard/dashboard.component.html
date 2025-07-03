@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="workspace-actions-container">
+    <div class="filter-container">
+      <app-workspace-filter (formChanged)="onFormChange($event)"></app-workspace-filter>
+    </div>
+
+    <button
+      *ngIf="isFacilitator"
+      class="add-workspace"
+      mat-fab
+      extended
+      color="primary"
+      matTooltip="Crear experiencia"
+      (click)="openCreateWorkspaceModal()"
+    >
+      <mat-icon class="btn-icon">add</mat-icon>
+      <span class="btn-text">Experiencia</span>
+    </button>
+  </div>
+  <div class="workspace-grid">
+      <app-workspace-list [formData]="formData"/>
+  </div>
+</div>

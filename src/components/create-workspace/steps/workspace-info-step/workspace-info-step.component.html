@@ -1,0 +1,14 @@
+<div class="field-wrapper" [formGroup]="form">
+  <p class="tip">En este paso, se debe configurar la información básica de la experiencia de co-diseño.
+    Esto incluye un nombre para identificarla y una descripción corta que resuma la experiencia.</p>
+  <mat-form-field class="form-field">
+    <mat-label>Nombre</mat-label>
+    <input matInput formControlName="name" required>
+    <mat-error *ngIf="form.get('name')?.invalid">El campo es obligatorio</mat-error>
+  </mat-form-field>
+  <mat-form-field class="form-field">
+    <mat-label>Descripción</mat-label>
+    <textarea matInput formControlName="description" rows="5" required></textarea>
+    <mat-error *ngIf="form.get('description')?.invalid">El campo es obligatorio</mat-error>
+  </mat-form-field>
+</div>

@@ -1,0 +1,44 @@
+:host {
+    .close-button {
+        position: absolute;
+        top: 2%;
+        right: 2%;
+        transform: translate(50%, -50%);
+        z-index: 1000;
+        width: 40px;
+        height: 40px;
+    }
+
+    .container {
+        padding: 10px;
+        width: 500px;
+
+      .text {
+            font-size: 16px;
+            color: black;
+        }
+
+        button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-radius: 12px;
+
+            &:not(:disabled) {
+
+                &.confirm {
+                    background-color: var(--tiffany-blue);
+                    border-color: var(--turquoise);
+                    color: var(--dark-shadow);
+                }
+
+                &.cancel {
+                    background-color: white;
+                    border-color: grey;
+                    color: var(--dark-shadow);
+                }
+            }
+        }
+    }
+
+}

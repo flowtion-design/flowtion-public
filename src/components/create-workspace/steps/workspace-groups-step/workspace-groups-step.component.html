@@ -1,0 +1,44 @@
+<div class="field-wrapper" [formGroup]="form">
+  <p class="tip">En este paso, se deben formar los grupos que participarán en la experiencia.
+    Si se crea un solo grupo, todos los participantes trabajarán juntos.
+    Se puede crear un máximo de 10 grupos, y cada grupo puede tener un mínimo de 2 y un máximo de 10 participantes.
+  </p>
+  <div class="group" formArrayName="groups" *ngFor="let group of groups.controls; let i = index">
+    <mat-form-field class="form-field" floatLabel="always">
+      <mat-label>Grupo {{i + 1}}</mat-label>
+      <input matInput [formControl]="getGroupFormGroup(i)" [ngStyle]="{display: 'none'}" >
+      <input
+        #participantInput
+        type="text"
+        placeholder="Seleccione un nombre o comience a escribir..."
+        [matChipInputFor]="chipGrid"
+        [matAutocomplete]="auto"
+        [formControl]="participantInputControl[i]"
+        (blur)="onInputBlur(i)"
+      />
+      <mat-chip-grid #chipGrid aria-label="Participants">
+        <mat-chip-row *ngFor="let participant of group.value; let j = index" (removed)="removeParticipant(i, j)">
+          {{participant.displayName}}
+          <button matChipRemove [attr.aria-label]="'remove ' + participant.displayName">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+      </mat-chip-grid>
+      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onParticipantSelected($event.option.value, i)">
+        <mat-option *ngFor="let participant of filteredParticipants[i] | async" [value]="participant" [disabled]="isParticipantSelected(participant)">
+          {{participant.displayName}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-hint align="start">Seleccione entre {{ minParticipants }} y {{ maxParticipants }} participantes</mat-hint>
+      <mat-error *ngIf="getGroupFormGroup(i).invalid">Debe tener entre {{ minParticipants }} y {{ maxParticipants }} participantes</mat-error>
+    </mat-form-field>
+
+    <button mat-fab aria-label="Delete group" class="delete-button" [disabled]="groups.length < 2" type="button" (click)="removeGroup(i)">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+  <button mat-stroked-button class="add-group-button" type="button" (click)="addGroup()">
+    <mat-icon>add</mat-icon>
+    Añadir Grupo
+  </button>
+</div>

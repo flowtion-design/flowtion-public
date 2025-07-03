@@ -1,0 +1,6 @@
+<app-header></app-header>
+<app-loading></app-loading>
+
+<div [ngClass]="{'router-container': true, loading: loading}">
+  <router-outlet></router-outlet>
+</div>

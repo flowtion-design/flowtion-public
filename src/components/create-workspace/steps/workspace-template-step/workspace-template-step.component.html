@@ -1,0 +1,16 @@
+<div class="field-wrapper">
+  <p class="tip">Se debe elegir la plantilla que determina la secuencia de recursos que se van a usar en la experiencia.
+    En una experiencia, cada grupo recibe una instancia particular del recurso, donde genera información acorde a la dinámica del mismo.
+    Si la plantilla tiene más de un recurso, la información generada se va propagando a medida que se avanza en la experiencia.
+    Solo el facilitador puede ver la información que van generando todos los grupos.
+  </p>
+  <swiper-container navigation="true" slides-per-view="auto" space-between="10" grab-cursor="true">
+    <swiper-slide *ngFor="let template of templates">
+      <app-template-card [template]="template" (click)="selectTemplate(template)" [selected]="selectedTemplate === template"/>
+    </swiper-slide>
+  </swiper-container>
+  <p *ngIf="!!selectedTemplate">Seleccionaste la plantilla: <strong>{{selectedTemplate.name}}</strong></p>
+  <p *ngIf="template.invalid && template.dirty" class="error-text">
+    Debes seleccionar una plantilla antes de continuar.
+  </p>
+</div>

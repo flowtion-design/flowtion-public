@@ -1,0 +1,43 @@
+<p class="tip">Se deben configurar todos los recursos de la plantilla seleccionada.
+  Cada recurso tiene distintos datos a ser completados, algunos de estos son de carácter obligatorio mientras que otros son opcionales.
+  Por otro lado, algunos de estos datos son informativos, sin embargo, otros determinan comportamiento de la herramienta.
+</p>
+<div>
+  <mat-stepper orientation="vertical" #resourcesStepper>
+    <mat-step *ngFor="let resourceCtrl of resources.controls; let i = index" [label]="resourceTemplates[i].name">
+      <form [formGroup]="getResourceFormGroup(i)">
+        <div class="field-wrapper smaller">
+          <mat-form-field *ngFor="let field of getResourceKeys(resourceTemplates[i].requiredFields)" class="form-field">
+            <div *ngIf="getFieldObject(resourceTemplates[i].requiredFields, field).type == 'select'; then selectBlock; else inputBlock"></div>
+            <mat-label>{{getFieldObject(resourceTemplates[i].requiredFields, field).name}}</mat-label>
+            <ng-template #selectBlock>
+              <mat-select [formControlName]="field">
+                <mat-option *ngFor="let option of getFieldObject(resourceTemplates[i].requiredFields, field).options | keyvalue" [value]="option.value">
+                  {{option.key}}
+                </mat-option>
+              </mat-select>
+            </ng-template>
+            <ng-template #inputBlock>
+              <input matInput [formControlName]="field" required>
+            </ng-template>
+            <mat-error *ngIf="getResourceFormGroup(i).get(field)?.invalid">El campo es obligatorio</mat-error>
+          </mat-form-field>
+          <mat-form-field *ngFor="let field of getResourceKeys(resourceTemplates[i].optionalFields)" class="form-field">
+            <mat-label>{{getFieldObject(resourceTemplates[i].optionalFields, field).name}}</mat-label>
+            <div *ngIf="getFieldObject(resourceTemplates[i].optionalFields, field).type == 'select'; then selectBlock; else inputBlock"></div>
+            <ng-template #selectBlock>
+              <mat-select [formControlName]="field">
+                <mat-option *ngFor="let option of getFieldObject(resourceTemplates[i].optionalFields, field).options | keyvalue" [value]="option.value">
+                  {{option.key}}
+                </mat-option>
+              </mat-select>
+            </ng-template>
+            <ng-template #inputBlock>
+              <input matInput [type]="getFieldObject(resourceTemplates[i].optionalFields, field).type" [formControlName]="field">
+            </ng-template>
+          </mat-form-field>
+        </div>
+      </form>
+    </mat-step>
+  </mat-stepper>
+</div>

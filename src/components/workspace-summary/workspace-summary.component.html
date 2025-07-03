@@ -1,0 +1,20 @@
+<mat-expansion-panel expanded>
+  <mat-expansion-panel-header>
+    <mat-panel-title class="title">
+      <div>La experiencia ha finalizado.</div>
+      <div>El resumen es:</div>
+
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <swiper-container class="groups-carousel" navigation="true" slides-per-view="auto" space-between="10" grab-cursor="true">
+    <swiper-slide *ngFor="let workspaceSummary of workspaceSummaries || []">
+      <mat-card class="template-card">
+        <mat-card-content>
+          <p>{{ workspaceSummary.resourceTemplateName }}</p>
+          <img class="workspace-summary-image" mat-card-image src="{{ workspaceSummary.image }}" alt="Captura de pantlla">
+          <p>{{ workspaceSummary.time | date: 'dd/MM/yyyy HH:mm' }}</p>
+        </mat-card-content>
+      </mat-card>
+    </swiper-slide>
+  </swiper-container>
+</mat-expansion-panel>

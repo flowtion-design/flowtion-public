@@ -1,0 +1,92 @@
+<div *ngIf="loading;else dashboard" class="loader"></div>
+<ng-template #dashboard>
+  <div class="workspace-dashboard">
+    <mat-accordion multi>
+      <app-workspace-info-and-actions
+        [workspace]="workspace"
+        [workspaceReference]="workspaceReference"
+        [resourcesWithTemplates]="resourcesWithTemplates"
+        [participantsByGroup]="participantsByGroup"
+        [roleConfiguration]="roleConfiguration"
+        [participants]="participants"
+        [actions]="true"
+      />
+      <mat-expansion-panel expanded class="sticky" *ngIf="!isExperienceFinished()">
+        <mat-expansion-panel-header class="group-information">
+          <mat-panel-title style="margin: 0;">
+            Información actual de los grupos
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="group-list">
+          <swiper-container *ngIf="activeResource" class="groups-carousel" navigation="true" slides-per-view="auto" space-between="10" grab-cursor="true">
+            <swiper-slide *ngFor="let group of groups; let i = index">
+              <app-group-summary [group]="group" [index]="i + 1" [resourceId]="activeResource.id!" [workspaceId]="workspace.id!" (click)="selectGroup(i)"/>
+            </swiper-slide>
+          </swiper-container>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel expanded *ngIf="!isExperienceFinished()">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{ !isExperienceActive() && workspace.activeResourceIndex && workspace.activeResourceIndex === 0 ? 'Vista de los grupos' : 'Vista del Grupo ' + (selectedGroupIndex + 1) }}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div *ngIf="workspace.activeResourceIndex == 0 && !isExperienceActive()" class="resource-container">
+          <p>La experiencia aún no comenzó</p>
+      </div>
+        <div *ngIf="isExperienceActive() || (workspace.activeResourceIndex && workspace.activeResourceIndex > 0)" class="group-preview">
+          <app-group-preview
+            [index]="selectedGroupIndex"
+            [workspaceId]="workspaceId"
+            [group]="groups[selectedGroupIndex]"
+            [resourceTemplate]="activeResourceTemplate"
+          />
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel expanded *ngIf="isExperienceFinished()">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Resumen de la experiencia
+            <button mat-mini-fab class="button without-top" (click)="downloadWorkspaceSummaryImages(); exportElementsToCSV(); $event.stopPropagation()" matTooltip="Descargar capturas de pantalla" aria-label="Descargar capturas de pantalla">
+              <mat-icon>download</mat-icon>
+            </button>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div *ngFor="let group of groups; let i = index">
+          <p>Grupo: {{i + 1}}</p>
+          <swiper-container class="groups-carousel" navigation="true" slides-per-view="auto" space-between="10" grab-cursor="true">
+                  <swiper-slide *ngFor="let workspaceSummary of workspaceSummariesByGroup.get(group.id!) || []">
+                  <mat-card class="template-card">
+                    <mat-card-content>
+                        <img class="workspace-summary-image" mat-card-image src="{{ workspaceSummary.image }}"  [alt]="'Captura de pantalla ' + i">
+                        <p *ngIf="workspaceSummary.participant">{{ getDisplayNameById(workspaceSummary.participant.id) }}</p>
+                        <p>{{ workspaceSummary.time | date: 'dd/MM/yyyy HH:mm' }}</p>
+                        <p>{{ workspaceSummary.resourceTemplateName }}</p>
+                    </mat-card-content>
+                  </mat-card>
+                </swiper-slide>
+          </swiper-container>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</ng-template>
+
+<div *ngIf="drawResourceForScreenshot" class="ghost-resource">
+  <div *ngIf="participantToRender">
+    <div style="height: 2000px; width: 3000px;" [id]="'participant-' + participantToRender.participant.id">
+      <app-resource-info *ngIf="!collapseAll"
+        [resourceWithTemplate]="currentResource"
+      />
+      <app-resource
+        [positioning]="{left: 0, top: 0, height: 2000, width: 3000, scale: 1}"
+        [workspaceReference]="workspaceReference"
+        [groupReference]="participantToRender.groupReference"
+        [selectedParticipant]="participantToRender.participant"
+        [resourcesWithTemplates]="resourcesWithTemplates"
+        [drawAudio]="true"
+        [collapsed]="collapseAll"
+      />
+    </div>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+<button class="close-button" mat-mini-fab type="button" (click)="attemptClose()" aria-label="Cerrar modal">
+  <mat-icon>close</mat-icon>
+</button>
+<div class="container">
+  <form class="form-container" [formGroup]="form" (ngSubmit)="createWorkspace()">
+    <mat-stepper class="stepper" [linear]="true" #stepper (selectionChange)="onStepChange($event)">
+      <mat-step label="Información" [completed]="shouldMarkStepCompleted(0)">
+        <app-workspace-info-step [form]="form"/>
+      </mat-step>
+      <mat-step label="Colaboradores" [completed]="shouldMarkStepCompleted(1)">
+        <app-workspace-helpers-step [form]="form" [possibleParticipants]="possibleParticipants"/>
+      </mat-step>
+      <mat-step label="Grupos" [completed]="shouldMarkStepCompleted(2)">
+        <app-workspace-groups-step
+          [form]="form"
+          [possibleParticipants]="possibleParticipants"
+          [minParticipants]="minParticipants"
+          [maxParticipants]="maxParticipants"
+        />
+      </mat-step>
+      <mat-step label="Plantilla" [completed]="shouldMarkStepCompleted(3)">
+        <app-workspace-template-step [form]="form"/>
+      </mat-step>
+      <mat-step label="Recursos" [completed]="shouldMarkStepCompleted(4)">
+        <app-workspace-resources-step [form]="form" [template]="template.value!"/>
+      </mat-step>
+    </mat-stepper>
+    <div class="form-controls">
+      <button
+        class="previous"
+        mat-stroked-button
+        matStepperPrevious
+        type="button"
+        [disabled]="stepper.selectedIndex === 0"
+        (click)="stepper.previous()"
+      >
+        <mat-icon>arrow_back</mat-icon>
+        Anterior
+      </button>
+      <button
+        class="next"
+        mat-stroked-button
+        matStepperNext
+        type="button"
+        [disabled]="stepper.selectedIndex === this.stepper.steps.length - 1"
+        (click)="goToNextStep()"
+      >
+        <mat-icon>arrow_forward</mat-icon>
+        Siguiente
+      </button>
+      <button class="create" mat-stroked-button type="submit" [disabled]="form.invalid">Crear</button>
+    </div>
+  </form>
+</div>

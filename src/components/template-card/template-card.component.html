@@ -1,0 +1,6 @@
+<mat-card class="template-card" [ngClass]="{'selected': selected, 'disabled': disabled}">
+    <img class="template-card-image" mat-card-image src="{{ template.image }}" alt="{{template.name}}">
+    <mat-card-content>
+        <mat-card-title class="template-card-title">{{ template.name }}</mat-card-title>
+    </mat-card-content>
+</mat-card>

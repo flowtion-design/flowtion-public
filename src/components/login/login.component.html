@@ -1,0 +1,96 @@
+<div mat-dialog-content class="container" [ngClass]="active ? 'right-panel-active' : 'left-panel-active'">
+    <div *ngIf="disableRegisterAndGoogle" [formGroup]="signUpFormGroup" class="form-container sign-up-container">
+        <h1>Registrarse</h1>
+        <br/>
+        <div class="avatar-container">
+          <div class="image-container avatar" *ngIf="this.getImage(); else placeholder" [ngStyle]="{backgroundImage: 'url(' + this.getImage() + ')'}"></div>
+          <ng-template #placeholder>
+            <div class="image-container avatar-placeholder"></div>
+          </ng-template>
+          <label for="avatar-input-file">
+            <div [ngClass]="!this.getImage() ? 'icon-wrapper edit' : 'icon-wrapper delete'" (click)="toggleFileAction($event)">
+              <input *ngIf="!this.getImage()" type="file" id="avatar-input-file" accept="image/*" (change)="onFileChange($event)"/>
+              <mat-icon *ngIf="!this.getImage()" class="icon" fontIcon="edit"></mat-icon>
+              <mat-icon *ngIf="this.getImage()" class="icon" fontIcon="delete"></mat-icon>
+            </div>
+          </label>
+        </div>
+        <mat-form-field>
+          <mat-label>Ingresá tu nombre completo</mat-label>
+          <input matInput type="text" formControlName="name" />
+          <mat-error *ngIf="signUpFormGroup.get('name')?.invalid">{{getNameErrorMessage()}}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Ingresá un email</mat-label>
+            <input matInput type="email" formControlName="email" />
+            <mat-error *ngIf="signUpFormGroup.get('email')?.invalid">{{getEmailErrorMessage()}}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Ingresa una contraseña</mat-label>
+            <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'" >
+            <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+                <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="signUpFormGroup.get('password')?.invalid">{{getPasswordErrorMessage()}}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Confirmar contraseña</mat-label>
+            <input matInput formControlName="confirmPassword" [type]="hideConfirmPassword ? 'password' : 'text'" >
+            <button mat-icon-button matSuffix (click)="hideConfirmPassword = !hideConfirmPassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hideConfirmPassword">
+                <mat-icon>{{hideConfirmPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="signUpFormGroup.get('confirmPassword')?.invalid || signUpFormGroup.hasError('notmatched')">{{getConfirmPasswordErrorMessage()}}</mat-error>
+        </mat-form-field>
+        <div mat-dialog-actions *ngIf="disableRegisterAndGoogle">
+            <button class="sign-button" (click)="signUp()">Registrarse</button>
+        </div>
+        <div class="alternative-switch">
+            <span>¿Ya tenés cuenta? <a (click)="switchPanel()">Ingresá</a></span>
+        </div>
+    </div>
+    <div [formGroup]="signInFormGroup" class="form-container sign-in-container">
+        <h1 class="overlay-h1">Ingresar</h1>
+        <br/>
+        <mat-form-field>
+            <mat-label>Ingresá tu email</mat-label>
+            <input matInput type="email" formControlName="email" />
+            <mat-error *ngIf="signInFormGroup.get('email')?.invalid">{{getEmailErrorMessage()}}</mat-error>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Ingresá tu contraseña</mat-label>
+            <input matInput formControlName="password" [type]="hidePassword ? 'password' : 'text'" >
+            <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+                <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+            <mat-error *ngIf="signInFormGroup.get('password')?.invalid">{{getPasswordErrorMessage()}}</mat-error>
+        </mat-form-field>
+        <div mat-dialog-actions>
+            <button class="sign-button" (click)="signIn()">Ingresar</button>
+        </div>
+        <span *ngIf="disableRegisterAndGoogle">o con tu cuenta de Google</span>
+        <div *ngIf="disableRegisterAndGoogle" class="social-container">
+            <button class="sign-button google" mat-button aria-label="Login with google account button" (click)="logInWithGoogle()">
+                <mat-icon svgIcon="google"></mat-icon>
+                Iniciá sesión con Google
+            </button>
+        </div>
+        <div class="alternative-switch" *ngIf="disableRegisterAndGoogle">
+            <span>¿Todavía no tenés una cuenta? <a (click)="switchPanel()">Registrate</a></span>
+        </div>
+    </div>
+    <div class="overlay-container">
+		<div class="overlay">
+			<div *ngIf="disableRegisterAndGoogle" class="overlay-panel overlay-left">
+				<h1 class="overlay-h1">¡Hola!</h1>
+				<p>¿Ya tenés una cuenta?</p>
+				<button class="sign-button ghost" id="signIn" (click)="switchPanel()">Ingresar</button>
+			</div>
+			<div class="overlay-panel overlay-right">
+				<h1 class="overlay-h1">¡Bienvenido!</h1>
+				<p *ngIf="disableRegisterAndGoogle">¿Todavía no te creaste una cuenta?</p>
+        <p style="font-weight: bold; padding:0 20px">Usá el usuario y la contraseña provistos para iniciar sesión en Flowtion</p>
+        <button *ngIf="disableRegisterAndGoogle" class="sign-button ghost" id="signUp" (click)="switchPanel()">Registrarse</button>
+			</div>
+		</div>
+	</div>
+</div>

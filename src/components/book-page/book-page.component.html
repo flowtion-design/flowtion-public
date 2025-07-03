@@ -1,0 +1,29 @@
+<div #page [ngClass]="{'book-page': true, 'current': isMiddlePage}">
+  <div class="page-container">
+    <h1 class="page-title">Hoja {{pageIndex + 1}}</h1>
+
+    <app-post-it
+        *ngFor="let fullElement of elements"
+        [element]="fullElement.element"
+        [author]="fullElement.author"
+        [votes]="fullElement.votes"
+        [canVote]="postItContext.canVote"
+        [preview]="postItContext.preview"
+        [isOngoing]="postItContext.isOngoing"
+        [drawAudio]="postItContext.drawAudio"
+        [scale]="positioning.scale"
+        [groupReference]="postItContext.groupReference"
+        [roleConfiguration]="postItContext.roleConfiguration"
+        [selectedParticipant]="postItContext.selectedParticipant"
+        [resourceConfiguration]="postItContext.resourceConfiguration"
+        [positioning]="positioning"
+        [hideContent]="!isMiddlePage"
+        [layoutMode]="'stacked'"
+      />
+    <div class="empty-message">
+      <p *ngIf="elements.length === 0">No existen elementos en esta hoja</p>
+    </div>
+  </div>
+</div>
+<h1 *ngIf="!isMiddlePage" class="indicator">{{pageText}}</h1>
+

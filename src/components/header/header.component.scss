@@ -1,0 +1,84 @@
+.toolbar{
+  background: linear-gradient(to bottom, var(--light-mint), var(--mint));
+  color: grey;
+  font-size: 2rem;
+  margin: 15px auto;
+}
+
+.rounded {
+  border-radius: 25px;
+  width: 98%;
+}
+
+.floating {
+  box-shadow: 10px 10px 20px var(--shadow);
+}
+
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  .logo {
+    margin-left: 0.5rem;
+    margin-right: 0.8rem;
+    width: 2rem;
+    height: 2rem;
+    filter: invert(0.5);
+  }
+
+  .title {
+    font-family: 'Flowtion', serif !important;
+    margin-right: 0.5rem;
+  }
+
+}
+
+.space-between {
+  flex: 1 1 auto;
+}
+
+.user-name {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding-right: 6px;
+}
+
+.user-button{
+  padding: 0;
+}
+
+.material-symbols-outlined {
+  font-weight: normal;
+  font-style: normal;
+  font-size: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Hide elements on small screens */
+.hide-on-mobile {
+  display: flex;
+}
+
+.show-on-mobile {
+  display: none;
+}
+
+/* Small screen rules */
+@media (max-width: 900px) {
+  .hide-on-mobile {
+    display: none !important;
+  }
+
+  .show-on-mobile {
+    display: inline-flex !important;
+  }
+
+  .user-name {
+    display: none;
+  }
+}

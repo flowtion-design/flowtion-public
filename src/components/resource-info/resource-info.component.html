@@ -1,0 +1,29 @@
+<mat-expansion-panel expanded>
+  <mat-expansion-panel-header>
+    <mat-panel-title style="margin: 0;">
+      Información del recurso
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <div  class="resource-header-grid">
+    <mat-card class="resource-information-card extra">
+      <mat-card-content class="scroll-content">
+        <p class="text"><strong>Recurso actual:</strong> {{ resourceTemplate.name }}</p>
+        <p class="text"><strong>Consigna:</strong> {{ resource.assignment }}</p>
+      </mat-card-content>
+    </mat-card>
+    <mat-card class="resource-information-card">
+      <mat-card-content class="scroll-content">
+
+        <p class="text" [ngClass]="resourceStatusClass"><strong>Estado:</strong> {{ resourceStatusLabel }}</p>
+        <app-timer
+          class="timer"
+          *ngIf="resource && resource.timer"
+          [resource]="resource"
+          [resourceRef]="resourceReference">
+        </app-timer>
+        <p *ngIf="resource && resource.totalVotes" class="text">{{ resource.totalVotes }} votos por participante</p>
+        <p *ngIf="resource && resource.numberOfRotations" class="text">Cantidad de rotaciones: {{ resource.numberOfRotations }}</p>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</mat-expansion-panel>

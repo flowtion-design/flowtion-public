@@ -1,0 +1,23 @@
+<div class="background-images">
+    <div class="image" style="top: 15%; left: 80%; background-image: url('../assets/img/templates/post-it.png');"></div>
+    <div class="image" style="top: 40%; left: 75%; background-image: url('../assets/img/templates/vote.png');"></div>
+    <div class="image" style="top: 40%; left: 15%; background-image: url('../assets/img/templates/votes.png');"></div>
+    <div class="image" style="top: 70%; left: 50%; background-image: url('../assets/img/templates/matrix.png');"></div>
+    <div class="image" style="top: 20%; left: 40%; background-image: url('../assets/img/templates/brainwriting.png');"></div>
+    <div class="image template" style="left: 50%; background-image: url('../assets/img/templates/brainwriting_matrix_votes.png');"></div>
+    <div class="image template" style="left: 10%; background-image: url('../assets/img/templates/brainwriting_matrix_vote.png');"></div>
+    <div class="image template" style="top: 55%; left: 15%; background-image: url('../assets/img/templates/postit_votes.png');"></div>
+    <div class="image template" style="top: 60%; left: 60%; background-image: url('../assets/img/templates/postit_matrix.png');"></div>
+    <div class="image template" style="top: 40%; left: 40%; background-image: url('../assets/img/templates/brainwriting_votes.png');"></div>
+
+</div>
+
+<div class="content">
+    <h1>¡Bienvenidos a Flowtion!</h1>
+    <h3>Flowtion es una herramienta de soporte para experiencias de co-diseño virtual con dinámicas sincrónicas y/o asincrónicas.</h3>
+    <h3>Esta versión de la herramienta se focaliza en actividades de co-diseño relacionadas con la ideación y selección de ideas en general,
+      las cuales podrían servir por ejemplo para la creación o mejoras de software.</h3>
+    <button *ngIf="!user" (click)="openLoginModal()" class="sign-button">
+        Iniciar sesión/Registrarse
+    </button>
+</div>

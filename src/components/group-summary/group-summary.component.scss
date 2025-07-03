@@ -1,0 +1,253 @@
+:host {
+    width: 500px;
+}
+
+.group-card {
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+
+    .mat-mdc-card-header {
+        padding: 0 16px 0;
+    }
+
+    .mat-mdc-card-content {
+        padding: 5px 16px 5px;
+    }
+
+    &.side-header {
+        .card-layout {
+            display: flex;
+            flex-direction: row;
+        }
+
+        mat-card-header {
+            margin-bottom: 0;
+            padding-left: 0;
+            padding-right: 5px;
+        }
+    }
+
+    .card-layout {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .resource-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        flex-direction: row;
+        align-items: center;
+        height: 100%;
+        position: relative;
+        min-width: 100px;
+
+        &.group-brainwriting {
+            gap: 20px;
+            padding-bottom: 10px;
+            padding-left: 20px;
+            padding-right: 20px;
+
+            svg {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+                z-index: 0;
+            }
+        }
+    
+        &.matrix {
+            display: flex;
+            border: 0;
+            width: 100%;
+
+            .post-its-panel {
+                flex-wrap: wrap;
+                overflow-y: scroll;
+                height: 100%;
+                width: 80px;
+                padding-right: 0%;
+            }
+
+            .matrix-container {
+                display: flex;
+            }
+
+            .matrix {
+                position: relative;
+                width: 100px;
+                height: 100px;
+                background: white;
+                border: 2px solid #ccc;
+            }
+
+            .axis-x {
+                position: absolute;
+                top: 50%;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background-color: black;
+                z-index: 1;
+            }
+
+            .axis-y {
+                position: absolute;
+                left: 50%;
+                top: 0;
+                height: 100%;
+                width: 2px;
+                background-color: black;
+                z-index: 1;
+            }
+
+            .arrow-right {
+                position: absolute;
+                right: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 0;
+                height: 0;
+                border-left: 10px solid black;
+                border-top: 5px solid transparent;
+                border-bottom: 5px solid transparent;
+                z-index: 2;
+            }
+
+            .arrow-up {
+                position: absolute;
+                top: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 0;
+                height: 0;
+                border-bottom: 10px solid black;
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+                z-index: 2;
+            }
+
+            .arrow-left {
+                position: absolute;
+                left: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 0;
+                height: 0;
+                border-right: 10px solid black;
+                border-top: 5px solid transparent;
+                border-bottom: 5px solid transparent;
+                z-index: 2;
+            }
+            
+            .arrow-down {
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 0;
+                height: 0;
+                border-top: 10px solid black;
+                border-left: 5px solid transparent;
+                border-right: 5px solid transparent;
+                z-index: 2;
+            }
+        }
+
+    }
+
+
+
+    .post-it {
+        background: #ffeeb4;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+        transform: rotate(-2deg);
+        transition: transform 0.2s;
+
+        &.sheet {
+            position: relative;
+            width: 40px;
+            height: 45px;
+            padding-top: 10px;
+            background-color: #f5f6f0;
+            border: 2px solid #d4d5cf;
+            clip-path: polygon(
+                0 0, 
+                70% 0, 
+                100% 30%, 
+                100% 100%, 
+                0 100%
+            );
+        }
+
+        &.sheet::before {
+            content: '';
+            position: absolute;
+            bottom: 38px;
+            left: 28px;
+            width: 20px;
+            height: 20px;
+            background-color: #4a4a4a; /* gris oscuro */
+            clip-path: polygon(0 0, 100% 100%, 0 100%);
+            z-index: 1;
+            }
+        
+
+        &.position-matrix {
+            position: absolute;
+            top: calc(50% - 25px);
+            left: calc(50% - 25px);
+            z-index: 3;
+        }
+
+        &.unposition-matrix {
+            position: relative;
+            margin: 5px;
+            top: calc(50% - 25px);
+        }
+    }
+
+    .vote-counter {
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        background-color: #4CAF50;
+        color: white;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: bold;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        z-index: 11;
+    }
+
+    .post-it:hover {
+        transform: rotate(0deg) scale(1.05);
+    }
+
+    .post-it-count {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .post-it-name {
+        font-size: 14px;
+        text-align: center;
+        word-break: break-word;
+    }
+}

@@ -1,0 +1,62 @@
+$line-height: 30px;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+
+  .indicator {
+    font-size: 48px;
+    font-weight: 500;
+    text-align: center;
+    margin: 48px auto;
+  }
+
+  .book-page {
+    border-radius: 0 20px 20px 0;
+    box-shadow: 4px 4px 24px 0 var(--shadow);
+    overflow: hidden;
+    border: none;
+    font-size: 16px;
+    height: 90%;
+
+    &.current {
+      overflow-y: auto;
+    }
+
+    .page-container {
+      position: relative;
+      padding: $line-height 30px $line-height 80px;
+      min-height: calc(100% - ($line-height * 2)); // Adjust for top and bottom padding
+      background: #fff linear-gradient(rgba(0,0,0,.1) 1px, transparent 0) 0 30px / 100% $line-height;
+
+      &:after {
+        position: absolute;
+        top: 0;
+        left: 50px;
+        content: '';
+        height: 100%;
+        width: 1px;
+        border-left: double #E08183;
+      }
+
+      .page-title {
+        font-weight: 500;
+        line-height: $line-height;
+      }
+
+      .empty-message {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+        text-align: center;
+      }
+    }
+  }
+
+  .add-button {
+    margin: auto;
+  }
+}

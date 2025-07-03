@@ -1,0 +1,29 @@
+<div *ngIf="loading" class="loader"></div>
+
+<!-- Mostrar elementos de: (em la misma linea que los chips)-->
+<div *ngIf="!loading" class="preview-wrapper">
+  <div *ngIf="canFilterParticipants()" class="participant-row">
+    <ng-container *ngFor="let participant of participants">
+      <div class="chip-with-drawing">
+        <mat-chip-option [value]="participant" [selected]="participant === selectedParticipant"
+          (click)="selectParticipant(participant)">
+          <img matChipAvatar [src]="participant.photoURL || 'assets/img/default_avatar.jpg'"
+            [alt]="'Foto de perfil de ' + participant.displayName" />
+          {{participant.displayName}}
+        </mat-chip-option>
+        <div *ngIf="showVotesCounter" class="counter vote">
+          {{ getVotesByParticipant(participant.id!) }}
+        </div>
+        <div *ngIf="showPostItCounter" class="counter post-it"
+          [style.background]="colorByParticipant.get(participant.id!)">
+          {{ getElementsByParticipant(participant.id!).length }}
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <div #whiteBoardContainer class="resource-container">
+    <app-white-board *ngIf="!loading" [preview]="true" [workspaceId]="workspaceId" [groupReference]="groupReference"
+      [backgroundElement]="whiteBoardContainer" [selectedParticipant]="selectedParticipant" />
+  </div>
+</div>

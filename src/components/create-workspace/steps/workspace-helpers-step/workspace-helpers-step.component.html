@@ -1,0 +1,34 @@
+<div class="field-wrapper">
+  <p class="tip">Para cada experiencia, <strong>se pueden definir opcionalmente colaboradores</strong>, los cuales
+    pueden tomar un rol determinado dentro de la misma. El rol <strong>co-facilitador</strong> habilita a una persona a
+    colaborar con el facilitador creador de la experiencia; el rol <strong>asistente técnico</strong> permite brindar
+    soporte en relación con el uso del entorno; y rol <strong>observador</strong> monitorea el acontecer de la
+    experiencia, pero sin intervenir en ningún momento.</p>
+
+  <mat-form-field class="form-field" *ngFor="let role of roles" floatLabel="always">
+    <mat-label>{{ roleLabels[role] }}</mat-label>
+    <input
+      matInput
+      #helperInput
+      type="text"
+      placeholder="Seleccione un nombre o comience a escribir..."
+      [matChipInputFor]="chipGrid"
+      [matAutocomplete]="helperAuto"
+      [formControl]="helperInputControl[role]"
+      (blur)="onInputBlur(role)"
+    />
+    <mat-chip-grid #chipGrid [attr.aria-label]="roleLabels[role]">
+      <mat-chip-row *ngFor="let user of helpers.get(role)?.value; let i = index" (removed)="removeHelper(role, i)">
+        {{user.displayName}}
+        <button matChipRemove [attr.aria-label]="'remove ' + user.displayName">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+    </mat-chip-grid>
+    <mat-autocomplete #helperAuto="matAutocomplete" (optionSelected)="onHelperSelected($event.option.value, role)">
+      <mat-option *ngFor="let user of filteredHelpers[role] | async" [value]="user" [disabled]="isHelperSelected(user, role)">
+        {{user.displayName}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</div>

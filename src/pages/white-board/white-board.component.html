@@ -1,0 +1,70 @@
+<div *ngIf="loading" class="loader"></div>
+
+<app-workspace-summary
+  *ngIf="!loading && workspaceEnded"
+  [workspaceReference]="workspaceReference"
+  [groupReference]="groupReference!"
+/>
+
+<div class="board-container"
+     *ngIf="!loading && !workspaceEnded"
+     #boardContainer
+     [class.dragging]="dragging"
+     [class.disabled]="disableZoomAndDrag"
+     (wheel)="onWheel($event)"
+     (pointerdown)="startDrag($event)"
+     (pointermove)="onDrag($event)"
+     (pointerup)="stopDrag()"
+     (pointerleave)="stopDrag()">
+
+  <!--<app-resource-info
+    *ngIf="!loading && !preview"
+    [resourceWithTemplate]="currentResource"
+  />-->
+
+  <app-workspace-info-and-actions
+    *ngIf="!loading && !preview"
+    style="top: 0; position: absolute; z-index: 10000"
+    [workspace]="workspace"
+    [workspaceReference]="workspaceReference"
+    [resourcesWithTemplates]="resourcesWithTemplates"
+    [actions]="false"
+  />
+
+  <div #boardContent class="board-content"
+       [style.transform]="'translate(' + offsetX + 'px, ' + offsetY + 'px) scale(' + scale + ')'">
+    <app-resource
+      *ngIf="!loading && hasCalculatedContainers"
+      [preview]="preview"
+      [positioning]="positioning"
+      [groupReference]="groupReference!"
+      [workspaceReference]="workspaceReference"
+      [selectedParticipant]="selectedParticipant"
+      [resourcesWithTemplates]="resourcesWithTemplates"
+    />
+  </div>
+
+  <div class="minimap"
+       #minimap
+       [class.dragging]="dragging"
+       [class.on-top]="preview"
+       [class.disabled]="disableZoomAndDrag"
+       (click)="onMinimapClick($event)">
+    <div class="minimap-content">
+      <div class="minimap-viewport"
+           #viewport
+           [class.dragging]="minimapDragging || dragging"
+           [ngStyle]="getViewportStyle()">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--add to mimimap viewport
+
+           (pointerdown)="onMinimapDragStart($event)"
+           (pointermove)="onMinimapDragMove($event)"
+           (pointerup)="onMinimapDragEnd()"
+           (pointerleave)="onMinimapDragEnd()"
+
+           -->

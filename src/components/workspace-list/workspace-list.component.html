@@ -1,0 +1,23 @@
+<div *ngIf="hasNoWorkspaces" class="no-results hide-on-loading">
+  <img src="assets/img/design-thinking.png" alt="No hay experiencias" class="no-results-image" />
+  <p>Todavía no hay experiencias creadas</p>
+</div>
+
+<ng-container *ngFor="let role of roles">
+  <h2 *ngIf="getFilteredWorkspaces(role).length > 0" class="workspace-title">{{getTitle(role)}}</h2>
+  <swiper-container
+    pagination="true"
+    pagination-clickable="true"
+    slides-per-view="auto"
+    space-between="30"
+    slides-offset-before="30"
+    slides-offset-after="30"
+  >
+    <swiper-slide *ngFor="let workspace of getFilteredWorkspaces(role)">
+      <app-workspace-card
+        [workspace]="workspace"
+        (click)="openWorkspace(workspace, role)"
+      />
+    </swiper-slide>
+  </swiper-container>
+</ng-container>

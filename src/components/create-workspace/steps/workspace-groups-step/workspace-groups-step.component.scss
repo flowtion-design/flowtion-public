@@ -1,0 +1,54 @@
+:host {
+  .field-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 24px 48px;
+
+    .tip {
+      margin-bottom: 24px;
+    }
+
+    .group {
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+
+      .form-field {
+        flex: 1;
+        margin-bottom: 16px;
+      }
+
+      .delete-button {
+        height: 48px;
+        width: 48px;
+
+        &:not(:disabled) {
+          background-color: var(--hot-pink);
+        }
+      }
+    }
+
+    .group:last-child {
+      margin-bottom: 0;
+    }
+
+    .add-group-button {
+      width: 25%;
+      margin: auto;
+      border-radius: 12px;
+      background-color: var(--mint);
+      border-color: var(--dark-mint);
+      color: var(--dark-shadow);
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .field-wrapper {
+      padding: 0 48px;
+    }
+  }
+
+  mat-form-field.mat-form-field-invalid input::placeholder {
+    color: red; /* red on error */
+  }
+}

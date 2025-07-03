@@ -1,0 +1,25 @@
+:host {
+  .field-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 24px 48px;
+
+    .tip {
+      margin-bottom: 24px;
+    }
+
+    .form-field {
+      margin-bottom: 16px;
+    }
+
+    .form-field:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .field-wrapper {
+      padding: 0 48px;
+    }
+  }
+}

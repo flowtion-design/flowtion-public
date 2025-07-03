@@ -1,0 +1,72 @@
+<div class="matrix">
+  <!-- Axis lines -->
+  <div class="vertical-line">
+    <div class="arrow-up"></div>
+    <div class="arrow-down"></div>
+  </div>
+  <div class="horizontal-line">
+    <div class="arrow-left"></div>
+    <div class="arrow-right"></div>
+  </div>
+
+  <!-- Labels -->
+  <div class="axis-label x left">- {{ xLabel }}</div>
+  <div class="axis-label x right">+ {{ xLabel }}</div>
+  <div class="axis-label y top">+ {{ yLabel }}</div>
+  <div class="axis-label y bottom">- {{ yLabel }}</div>
+
+  <!-- Sidebar -->
+  <div class="sidebar"
+       *ngIf="!collapsed"
+       [class.collapsed]="isSidebarCollapsed"
+       (transitionend)="onSidebarTransitionEnd($event)"
+       [ngStyle]="scaledSidebarStyle">
+
+    <!-- Collapse/Expand Button -->
+    <button
+      mat-icon-button
+      class="collapse-button"
+      (click)="toggleSidebar()"
+      matTooltip="{{ isSidebarCollapsed ? 'Expandir' : 'Colapsar' }}"
+      [attr.aria-label]="isSidebarCollapsed ? 'Expandir' : 'Colapsar'"
+    >
+      <mat-icon class="sidebar-icon">{{ isSidebarCollapsed ? 'sticky_note_2' : 'chevron_right' }}</mat-icon>
+      <span *ngIf="isSidebarCollapsed" class="post-it-counter">{{elements.length}}</span>
+    </button>
+
+  <!-- Sidebar Content -->
+    <span class="sidebar-content" [class.collapsed]="isSidebarCollapsed">
+      <p class="sidebar-title">{{elements.length === 0 ? 'No quedan post-its por posicionar' : 'Post-its no posicionados' }}</p>
+
+      <div class="paginator-buttons">
+        <button mat-mini-fab (click)="prevPage()" class="paginator-button" aria-label="Página anterior" matTooltip="Página anterior">
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+        <span>{{ page + 1 }} / {{ totalPages }}</span>
+        <button mat-mini-fab (click)="nextPage()" class="paginator-button" aria-label="Página siguiente" matTooltip="Página siguiente">
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+      </div>
+    </span>
+  </div>
+
+  <!-- Unpositioned Elements -->
+  <app-post-it
+    [class.collapsed]="!showPostIts || collapsed"
+    *ngFor="let unpositionedElement of paginatedUnpositionedElements; let i = index"
+    [element]="unpositionedElement.element"
+    [author]="unpositionedElement.author"
+    [votes]="unpositionedElement.votes"
+    [canVote]="postItContext.canVote"
+    [preview]="postItContext.preview"
+    [isOngoing]="postItContext.isOngoing"
+    [drawAudio]="postItContext.drawAudio"
+    [scale]="positioning.scale"
+    [groupReference]="postItContext.groupReference"
+    [roleConfiguration]="postItContext.roleConfiguration"
+    [selectedParticipant]="postItContext.selectedParticipant"
+    [resourceConfiguration]="postItContext.resourceConfiguration"
+    [sidebarIndex]="i"
+    [positioning]="positioning"
+  />
+</div>

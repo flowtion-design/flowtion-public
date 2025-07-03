@@ -1,0 +1,96 @@
+<mat-card class="group-card"
+  [class.side-header]="(isExperienceActive() || (workspace.activeResourceIndex && workspace.activeResourceIndex > 0)) && (resourceTemplate.name === 'Matriz de 2x2' || ((resourceTemplate.name === 'Votación Grupal' || resourceTemplate.name === 'Votación Ciega') && previousResourceIsMatrix()))">
+  <div class="card-layout">
+
+    <mat-card-header>
+      <mat-card-title>{{'Grupo ' + (index)}}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <div *ngIf="workspace.activeResourceIndex == 0 && !isExperienceActive()" class="resource-container">
+        <p>La experiencia aún no comenzó</p>
+      </div>
+
+      <div
+        *ngIf="(isExperienceActive() || (workspace.activeResourceIndex && workspace.activeResourceIndex > 0)) && (resourceTemplate.name === 'Matriz de 2x2' || ((resourceTemplate.name === 'Votación Grupal' || resourceTemplate.name === 'Votación Ciega') && previousResourceIsMatrix()))"
+        class="resource-container matrix">
+        <div class="matrix-container">
+          <div class="matrix">
+            <div class="axis-x"></div>
+            <div class="axis-y"></div>
+            <div class="arrow-right"></div>
+            <div class="arrow-up"></div>
+            <div class="arrow-left"></div>
+            <div class="arrow-down"></div>
+            <div class="post-it position-matrix">
+              <div class="post-it-count">{{getPositionedElements()}}</div>
+              <div *ngIf="(resourceTemplate.name === 'Votación Grupal' || resourceTemplate.name === 'Votación Ciega')"
+                class="vote-counter">
+                {{ getPositionedVotesCount() }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="post-its-panel"
+          *ngIf="(resourceTemplate.name === 'Matriz de 2x2') || (getUnpositionedElements() > 0 && (resourceTemplate.name === 'Votación Grupal' || resourceTemplate.name === 'Votación Ciega'))">
+          <div class="post-it unposition-matrix">
+            <div class="post-it-count">{{getUnpositionedElements()}}</div>
+            <div *ngIf="(resourceTemplate.name === 'Votación Grupal' || resourceTemplate.name === 'Votación Ciega')"
+              class="vote-counter">
+              {{ getUnpositionedVotesCount() }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="(isExperienceActive() || (workspace.activeResourceIndex && workspace.activeResourceIndex > 0)) && colorByParticipant.size === participants.length && resourceTemplate.name === 'Brainwriting Individual'"
+        class="resource-container">
+        <div *ngFor="let participant of participants" class="post-it" [title]="participant.displayName"
+          [style.background]="colorByParticipant.get(participant.id!)">
+          <div class="post-it-count">{{getElementsByParticipant(participant.id!).length}}</div>
+        </div>
+      </div>
+
+      <div *ngIf="(isExperienceActive() || (workspace.activeResourceIndex && workspace.activeResourceIndex > 0)) && colorByParticipant.size === participants.length && !previousResourceIsMatrix() && resourceTemplate.name === 'Votación Grupal'"
+        class="resource-container">
+        <div *ngFor="let participant of participants" class="post-it" [title]="participant.displayName"
+          [style.background]="colorByParticipant.get(participant.id!)">
+          <div class="post-it-count">{{getElementsByParticipant(participant.id!).length}}</div>
+          <div class="vote-counter">
+            {{ getVotesByParticipantInGroupVoting(participant.id!) }}
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="(isExperienceActive() || (workspace.activeResourceIndex && workspace.activeResourceIndex > 0)) && colorByParticipant.size === participants.length && !previousResourceIsMatrix() && resourceTemplate.name === 'Votación Ciega'"
+        class="resource-container">
+        <div *ngFor="let participant of participants" class="post-it" [title]="participant.displayName"
+          [style.background]="colorByParticipant.get(participant.id!)">
+          <div class="post-it-count">{{getElementsByParticipant(participant.id!).length}}</div>
+          <div class="vote-counter">
+            {{ getVotesByParticipant(participant.id!) }}
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="(isExperienceActive() || (workspace.activeResourceIndex && workspace.activeResourceIndex > 0)) && resourceTemplate.name === 'Brainwriting Grupal' && participants.length > 0"
+        #resourceContainer class="resource-container group-brainwriting">
+        <div *ngFor="let participant of participants; let i = index" [id]="participant.id" #postItElem class="post-it sheet"
+          [title]="'hoja ' + (i + 1)">
+          <div class="post-it-count">{{getElementsByPage(participant.id!).length}}</div>
+        </div>
+        <svg id="connections">
+          <defs>
+            <marker id="arrow" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto-start-reverse">
+              <path d="M0,0 L6,3 L0,6 z" fill="black" />
+            </marker>
+          </defs>
+          <ng-container *ngFor="let line of lines">
+            <polyline [attr.points]="getPoints(line)" stroke="black" fill="none" stroke-width="2"
+              marker-end="url(#arrow)" />
+          </ng-container>
+        </svg>
+      </div>
+    </mat-card-content>
+  </div>
+</mat-card>

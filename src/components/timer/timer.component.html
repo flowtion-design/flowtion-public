@@ -1,0 +1,16 @@
+<div class="timer-container">
+  <div class="time-display">{{displayTime}}</div>
+  <div *ngIf="showControls" class="timer-controls">
+    <button mat-icon-button 
+            *ngIf="!resource.finishTime" 
+            (click)="startTimer()"
+            [disabled]="!resource.timer">
+      <mat-icon>play_arrow</mat-icon>
+    </button>
+    <button mat-icon-button 
+            *ngIf="resource.finishTime" 
+            (click)="pauseResumeTimer()">
+      <mat-icon>{{resource.stoppedAt ? 'play_arrow' : 'pause'}}</mat-icon>
+    </button>
+  </div>
+</div>

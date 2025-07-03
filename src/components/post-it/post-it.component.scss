@@ -1,0 +1,344 @@
+.post-it-scale {
+  transform-origin: top left;
+  position: absolute;
+  z-index: 10;
+
+  &:focus {
+    z-index: 15;
+  }
+
+  &:hover {
+    z-index: 20;
+  }
+
+  &.expanded {
+    z-index: 30;
+  }
+
+  &.not-positioned {
+    z-index: 40;
+  }
+
+  &.stacked-mode {
+    position: static;
+  }
+
+  .post-it-container {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    cursor: move;
+    width: 180px;
+    font-size: 14px;
+    height: 180px;
+    text-align: center;
+    z-index: 10;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    pointer-events: auto;
+
+    &:active {
+      box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+      0 8px 10px 1px rgba(0, 0, 0, 0.14),
+      0 3px 14px 2px rgba(0, 0, 0, 0.12);
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -45px;
+      left: 0;
+      width: 100%;
+      height: 45px;
+      background: transparent;
+    }
+
+    &.not-positioned {
+      z-index: 30;
+    }
+
+    &.cdk-drag-disabled {
+      cursor: grab;
+    }
+
+    &.expanded {
+      min-height: 200px;
+      height: auto;
+      width: 250px;
+    }
+
+    &.stacked-post-it {
+      position: static;
+      margin-bottom: 20px;
+      height: auto;
+      min-height: 40px;
+      text-align: left;
+      width: 100%;
+    }
+
+    &.grid-post-it {
+      position: static;
+    }
+
+    &.invisible > * {
+      visibility: hidden;
+    }
+
+    .vote-counter {
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background-color: #4CAF50;
+      color: white;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      z-index: 11;
+    }
+
+    .content-area {
+      width: 100%;
+      height: 100%;
+      border: none;
+      outline: none;
+      resize: none;
+      background-color: transparent;
+      overflow-wrap: break-word;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      letter-spacing: 0.25px;
+      line-height: 20px;
+      font-weight: 400;
+
+      &.placeholder-text {
+        color: var(--dark-shadow)
+      }
+    }
+
+    .edit-content-area {
+      width: 100%;
+      min-height: 130px;
+      max-height: 230px;
+      border: none;
+      outline: none;
+      resize: none;
+      background-color: transparent;
+      letter-spacing: 0.25px;
+      line-height: 20px;
+    }
+
+    .options-bar {
+      position: absolute;
+      top: -45px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.9);
+      padding: 5px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      display: flex;
+      gap: 5px;
+      z-index: 1000;
+      white-space: nowrap;
+      width: auto;
+      min-width: 100%;
+
+      .button-like {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        background: none;
+        border: none;
+        padding: 4px;
+        transition: opacity 0.2s ease;
+
+        &:hover {
+          opacity: 0.7;
+        }
+      }
+
+      .button-icon {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        color: #333;
+
+        &.voted {
+          color: #4CAF50;
+        }
+      }
+
+      .author-info {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 2px;
+        border-radius: 16px;
+        font-size: 14px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .author-avatar {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+
+      .author-name {
+        color: rgba(0, 0, 0, 0.87);
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+
+}
+
+.html2canvas-separator {
+  background: transparent;
+  height: 20px;
+}
+
+.image-container {
+  display: inline-block;
+  position: relative;
+  margin: 2px auto;
+
+    .image-preview {
+      display: block;
+      margin: 2px auto;
+      width: 100%;
+      height: auto;
+
+      &.collapsed {
+        object-fit: contain;
+        height: 100px;
+      }
+    }
+
+  .close-button {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    cursor: pointer;
+
+    mat-icon {
+      width: 12px;
+      height: 12px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+  }
+}
+
+.audio-container {
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  width: 100%;
+  align-items: center;
+  gap: 4px;
+
+  .audio-preview {
+    flex: 1;
+    display: block;
+    width: 100%;
+    height: 30px;
+  }
+
+  .close-button {
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+    cursor: pointer;
+
+    mat-icon {
+      width: 12px;
+      height: 12px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+  }
+}
+
+
+
+.close-button:hover {
+  background: darkred;
+}
+
+.audio-placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.audio-ui {
+  background: #eee;
+  border-radius: 25px;
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+  font-size: 16px;
+}
+
+.play-icon {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress-bar {
+  width: 40px;
+  height: 6px;
+  background-color: #ccc;
+  border-radius: 3px;
+  position: relative;
+}
+
+.dots {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.dots .point {
+  width: 4px;
+  height: 4px;
+  background-color: black;
+  border-radius: 50%;
+}

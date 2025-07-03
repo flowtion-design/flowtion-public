@@ -1,0 +1,29 @@
+:host {
+  .no-results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 4rem;
+    color: #666;
+    text-align: center;
+
+    .no-results-image {
+      max-width: 300px;
+      margin-bottom: 1rem;
+      opacity: 0.8;
+    }
+  }
+
+  swiper-container {
+    width: calc(100% + 32px);
+    height: 100%;
+    margin: 0 -16px;
+
+    swiper-slide {
+      width: auto;
+    }
+  }
+
+
+}

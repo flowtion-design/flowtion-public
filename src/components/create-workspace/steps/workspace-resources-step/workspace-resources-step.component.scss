@@ -1,0 +1,41 @@
+:host {
+  .tip {
+    margin: 0 24px;
+  }
+
+  @media screen and (max-width: 768px) {
+    .field-wrapper {
+      padding: 0 48px;
+    }
+  }
+}
+
+.field-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 48px;
+
+  &.smaller {
+    padding: 12px 48px 0 24px;
+  }
+
+  .form-field {
+    padding-bottom: 16px;
+  }
+
+}
+
+
+.resources-container {
+  padding: 24px;
+
+  .sub-steps-progress {
+    margin-bottom: 24px;
+
+    .progress-label {
+      margin-bottom: 8px;
+      font-size: 16px;
+      color: rgba(0, 0, 0, 0.87);
+    }
+  }
+}

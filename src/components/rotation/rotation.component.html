@@ -1,0 +1,20 @@
+<div *ngIf="loading; else pages" class="loader"></div>
+<ng-template #pages>
+  <div class="pages-container" [ngStyle]="scaledContainerStyle">
+    <div
+      id="page"
+      class="page"
+      *ngFor="let i of visiblePages"
+      [ngClass]="positionClass(currentRotations + i)"
+      [ngStyle]="getTransform(currentRotations + i)"
+    >
+      <app-book-page
+        [pageIndex]="getIndexInPosition(positionClass(currentRotations + i))"
+        [elements]="getElementsFor(currentRotations + i)"
+        [position]="positionClass(currentRotations + i)"
+        [postItContext]="postItContext"
+        [positioning]="positioning"
+      />
+    </div>
+  </div>
+</ng-template>

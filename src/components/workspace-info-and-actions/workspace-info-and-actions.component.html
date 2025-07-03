@@ -1,0 +1,182 @@
+<mat-expansion-panel [ngClass]="{'shrink': !canOperate}" expanded>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Información {{ canOperate ? 'y acciones ' : ''}}sobre la experiencia
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <div class="workspace-header-grid">
+    <!-- Card 1: Información del Workspace -->
+    <mat-card class="header-card double">
+      <mat-card-header class="header">
+        <mat-card-title class="extra-bold">
+          Nombre de la experiencia: {{ workspace.name }}
+          <p *ngIf="isExperienceFinished()" class="bold"> (La experiencia ha finalizado)</p>
+        </mat-card-title>
+        <button *ngIf="canOperate && roleConfiguration.canEditWorkspace" mat-mini-fab (click)="toggleVisibility()" class="button without-top"
+          [attr.aria-label]="workspace.isVisible ? 'Ocultar workspace' : 'Habilitar workspace'"
+          [matTooltip]="workspace.isVisible ? 'Ocultar workspace' : 'Habilitar workspace'">
+          <mat-icon>{{ workspace.isVisible ? 'visibility' : 'visibility_off' }}</mat-icon>
+        </button>
+      </mat-card-header>
+      <mat-card-content>
+        <p class="text"><strong>Descripción:</strong> {{ workspace.description }}</p>
+        <mat-card-subtitle class="subtitle">La plantilla de la experiencia es: {{ workspace.templateName
+          }}</mat-card-subtitle>
+        <img class="template-card-image" [src]="workspace.image" [alt]="workspace.name" />
+
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Card 2: Información del recurso plantilla
+          <mat-card class="header-card">
+            <mat-card-header>
+              <mat-card-title>Plantilla actual</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p>{{ workspace.templateName }}</p>
+              <img class="template-card-image" [src]="workspace.image" [alt]="workspace.name" />
+            </mat-card-content>
+          </mat-card> -->
+
+    <!-- Card 3: Información del recurso activo -->
+    <mat-card class="header-card double" *ngIf="!isExperienceFinished()">
+      <mat-card-header class="header" *ngIf="activeResource && activeResourceTemplate">
+        <mat-card-title class="extra-bold">Recurso actual: {{ activeResourceTemplate.name }}</mat-card-title>
+        <button *ngIf="canOperate && roleConfiguration.canTakeScreenshots" class="button without-top" mat-fab (click)="takeScreenshot()" [disabled]="disableButtons"
+          matTooltip="Tomar captura de pantalla" aria-label="Tomar captura de pantalla">
+          <mat-icon>photo_camera</mat-icon>
+        </button>
+      </mat-card-header>
+      <mat-card-content>
+        <span class="editable" *ngIf="!isAssignmentEditing">
+          <span class="text"><strong>Consigna:</strong> {{ activeResource.assignment }}</span>
+          <button class="button" *ngIf="activeResource.status === ResourceStatus.Waiting && canOperate && roleConfiguration.canEditResource" mat-mini-fab
+            type="button" (click)="enableAssignmentEdit()" matTooltip="Editar consigna" aria-label="Editar consigna">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </span>
+        <textarea *ngIf="isAssignmentEditing" [(ngModel)]="activeResource.assignment" (blur)="saveAssignment()"
+          (keydown.enter)="saveAssignment()" class="edit-content-area" #assignmentInput>
+              </textarea>
+
+        <div *ngIf="activeResourceTemplate.name === 'Brainwriting Grupal'">
+          <ng-container *ngIf="!isNumberOfRotationsEditing">
+            <span class="text">Número de rotaciones: {{ activeResource.numberOfRotations == 'UNLIMITED_ROTATIONS' ? 'Ilimitadas' : activeResource.numberOfRotations }}</span>
+            <button *ngIf="activeResource.status === ResourceStatus.Waiting && canOperate && roleConfiguration.canEditResource" mat-mini-fab type="button"
+              class="button" (click)="enableNumberOfRotationsEdit()" matTooltip="Editar número de rotaciones" aria-label="Editar número de rotaciones">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </ng-container>
+          <mat-form-field *ngIf="isNumberOfRotationsEditing" appearance="fill">
+            <mat-select [(ngModel)]="activeResource.numberOfRotations" (selectionChange)="saveNumberOfRotations()"
+              (closed)="saveNumberOfRotations()" #numberOfRotationsSelect>
+              <mat-option
+                *ngFor="let option of getFieldObject(activeResourceTemplate.requiredFields, 'numberOfRotations').options | keyvalue"
+                [value]="option.value">{{ option.key }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div
+          *ngIf="activeResourceTemplate.name === 'Votación Ciega' || activeResourceTemplate.name === 'Votación Grupal'">
+          <ng-container *ngIf="!isTotalVotesEditing">
+            <span class="text">Cantidad de votos: {{ activeResource.totalVotes == 'UNLIMITED_VOTES' ? 'Ilimitados' : activeResource.totalVotes }}</span>
+            <button *ngIf="activeResource.status === ResourceStatus.Waiting && canOperate && roleConfiguration.canEditResource" mat-mini-fab type="button"
+              class="button" (click)="enableTotalVotesEdit()" matTooltip="Editar cantidad de votos" aria-label="Editar cantidad de votos">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </ng-container>
+          <mat-form-field *ngIf="isTotalVotesEditing" appearance="fill">
+            <mat-select [(ngModel)]="activeResource.totalVotes" (selectionChange)="saveTotalVotes()"
+              (closed)="saveTotalVotes()" #totalVotesSelect>
+              <mat-option
+                *ngFor="let option of getFieldObject(activeResourceTemplate.requiredFields, 'totalVotes').options | keyvalue"
+                [value]="option.value">{{ option.key }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="activeResourceTemplate.name === 'Matriz de 2x2'">
+          <ng-container *ngIf="!isXAxisEditing">
+            <span class="text">Valor de X: {{ activeResource.xAxis }}</span>
+            <button *ngIf="activeResource.status === ResourceStatus.Waiting && canOperate && roleConfiguration.canEditResource" mat-mini-fab type="button"
+              class="button" (click)="enableXAxisEdit()" matTooltip="Editar valor de X" aria-label="Editar valor de X">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </ng-container>
+          <textarea *ngIf="isXAxisEditing" [(ngModel)]="activeResource.xAxis" (blur)="saveXAxis()"
+            (keydown.enter)="saveXAxis()" class="edit-content-area" #xAxisInput>
+                </textarea>
+        </div>
+        <div *ngIf="activeResourceTemplate.name === 'Matriz de 2x2'">
+          <ng-container *ngIf="!isYAxisEditing">
+            <span class="text">Valor de Y: {{ activeResource.yAxis }}</span>
+            <button *ngIf="activeResource.status === ResourceStatus.Waiting && canOperate && roleConfiguration.canEditResource" mat-mini-fab type="button"
+              class="button" (click)="enableYAxisEdit()" matTooltip="Editar valor de Y" aria-label="Editar valor de Y">
+              <mat-icon>edit</mat-icon>
+            </button>
+          </ng-container>
+          <textarea *ngIf="isYAxisEditing" [(ngModel)]="activeResource.yAxis" (blur)="saveYAxis()"
+            (keydown.enter)="saveYAxis()" class="edit-content-area" #yAxisInput>
+                </textarea>
+        </div>
+
+        <p class="text" [ngClass]="resourceStatusClass"><strong>Estado:</strong> {{ resourceStatusLabel }}</p>
+
+        <!-- Botones de control -->
+        <div *ngIf="canOperate && roleConfiguration.canEditResource" class="resource-buttons">
+          <button
+            *ngIf="activeResourceTemplate.configuration.showPages && activeResource.numberOfRotations !== undefined"
+            mat-fab class="rotate-button" aria-label="Rotar" [matTooltip]="rotationTooltip"
+            [disabled]="disableButtons || ((activeResource.currentRotation || 0) === activeResource.numberOfRotations) || activeResource.status !== ResourceStatus.Ongoing"
+            (click)="rotate()">
+            <mat-icon>sync</mat-icon>
+          </button>
+          <button class="pause-button" *ngIf="activeResource.status === ResourceStatus.Ongoing" mat-fab
+            (click)="pauseResource()" matTooltip="Pausar Recurso" aria-label="Pausar Recurso" [disabled]="disableButtons">
+            <mat-icon>pause</mat-icon>
+          </button>
+          <button class="resume-button" *ngIf="activeResource.status === ResourceStatus.Paused" mat-fab
+            (click)="resumeResource()" matTooltip="Reanudar Recurso"  aria-label="Reanudar Recurso" [disabled]="disableButtons">
+            <mat-icon>play_arrow</mat-icon>
+          </button>
+          <button class="play-button" *ngIf="activeResource.status === ResourceStatus.Waiting" mat-fab
+            (click)="resumeResource()" matTooltip="Iniciar Recurso" aria-label="Iniciar Recurso">
+            <mat-icon>play_arrow</mat-icon>
+          </button>
+          <button class="next-button" mat-fab (click)="goToNextResource()" [matTooltip]="getToNextResourceTooltip()" [attr.aria-label]="getToNextResourceTooltip()"
+            *ngIf="workspace.activeResourceIndex !== undefined && activeResource && activeResource.status !== ResourceStatus.Finished" [disabled]="disableButtons">
+            <mat-icon *ngIf="workspace.activeResourceIndex === workspace.resources.length - 1">check</mat-icon>
+            <mat-icon *ngIf="workspace.activeResourceIndex !== workspace.resources.length - 1">skip_next</mat-icon>
+          </button>
+        </div>
+
+        <!-- Timer -->
+        <app-timer *ngIf="activeResource.timer" [resource]="activeResource"
+          [resourceRef]="workspace.resources[workspace.activeResourceIndex!]" [showControls]="true"></app-timer>
+
+        <!-- Configuraciones futuras aquí -->
+        <div class="future-config">
+          <!-- Espacio reservado -->
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</mat-expansion-panel>
+
+<div *ngIf="drawResourceForScreenshot" class="screenshot-staging">
+  <div *ngIf="participantToRender">
+    <div style="height: 2000px; width: 3000px;" class="screenshot-item" [id]="'participant-' + participantToRender.participant.id">
+      <div style="top: 0; position: absolute; z-index: 10000; max-width: 60%">
+        <app-workspace-info-and-actions *ngIf="!collapseAll" [workspace]="workspace"
+          [workspaceReference]="workspaceReference" [resourcesWithTemplates]="resourcesWithTemplates"
+          [actions]="false" />
+      </div>
+      <app-resource [positioning]="{left: 0, top: 0, height: 2000, width: 3000, scale: 1}"
+        [workspaceReference]="workspaceReference" [groupReference]="participantToRender.groupReference"
+        [selectedParticipant]="participantToRender.participant" [resourcesWithTemplates]="resourcesWithTemplates"
+        [drawAudio]="true" [collapsed]="collapseAll" />
+    </div>
+  </div>
+</div>

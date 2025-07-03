@@ -1,0 +1,69 @@
+:host {
+  .board-container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    cursor: grab;
+    position: relative;
+
+    &.dragging {
+      cursor: grabbing;
+    }
+
+    &.disabled {
+      pointer-events: none;
+      cursor: pointer;
+    }
+
+    .board-content {
+      width: 3000px;
+      height: 2000px;
+      position: absolute;
+      transform-origin: 0 0;
+    }
+
+    .minimap {
+      position: absolute;
+      left: 20px;
+      bottom: 20px;
+      width: 225px;
+      height: 150px;
+      background-color: #eee;
+      border: 1px solid #ccc;
+      z-index: 10;
+      cursor: pointer;
+
+      &.dragging {
+        cursor: grabbing;
+      }
+
+      &.on-top {
+        top: 20px;
+        bottom: auto;
+      }
+
+      &.disabled {
+        visibility: hidden;
+        pointer-events: none;
+        cursor: pointer;
+      }
+
+      .minimap-content {
+        width: 100%;
+        height: 100%;
+        position: relative;
+
+        .minimap-viewport {
+          position: absolute;
+          border: 1px solid lightgrey;
+          background-color: rgba(0, 0, 0, 0.1);
+          cursor: grab;
+
+          &.dragging {
+            cursor: grabbing;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,88 @@
+<ng-template #postItContent>
+  <div *ngIf="voteCount > 0" class="vote-counter">
+      {{ voteCount }}
+  </div>
+  <div *ngIf="!isEditing" class="content-area" [ngClass]="{ 'placeholder-text': !element.content }"
+       [ngStyle]="{'-webkit-line-clamp': lineClamp, 'max-height': lineClamp * 20 + 'px'}" [innerHTML]="element.content || 'Escribe tu idea aquí...'"></div>
+  <textarea #contentArea *ngIf="isEditing && canEdit" [(ngModel)]="element.content" (blur)="saveContent()"
+      (keydown.enter)="saveContent()" class="edit-content-area">
+  </textarea>
+  <span *ngIf="element.image" class="image-container">
+      <img [src]="element.image" alt="Vista previa de la imagen" class="image-preview" [ngClass]="{'collapsed': !expanded}" crossorigin="anonymous"/>
+      <button class="close-button" *ngIf="canEdit" (click)="removeImage()"><mat-icon>close</mat-icon></button>
+  </span>
+  <span *ngIf="element.audio" class="audio-container">
+    <audio *ngIf="!drawAudio" [src]="element.audio" controls class="audio-preview"></audio>
+    <button class="close-button" *ngIf="canEdit" (click)="removeAudio()"><mat-icon>close</mat-icon></button>
+    <div class="audio-placeholder" *ngIf="drawAudio">
+      <div class="audio-ui">
+        <div class="play-icon">▶</div>
+        <div class="progress-bar"></div>
+      </div>
+    </div>
+  </span>
+  <div class="options-bar" *ngIf="showOptions">
+      <div class="author-info">
+          <img class="author-avatar" [src]="author?.photoURL || 'assets/img/default_avatar.jpg'"
+              [alt]="author?.displayName || 'Anónimo'">
+          <span class="author-name">{{ author?.displayName || 'Anónimo' }}</span>
+      </div>
+      <label *ngIf="canDelete" class="button-like" (click)="deletePostIt()">
+          <mat-icon class="button-icon">delete</mat-icon>
+      </label>
+      <label *ngIf="canEdit" class="button-like">
+          <input type="file" (change)="uploadFile($event, 'image')" accept="image/*" style="display: none;">
+          <mat-icon class="button-icon">add_photo_alternate</mat-icon>
+      </label>
+      <label *ngIf="canEdit" class="button-like">
+          <input type="file" (change)="uploadFile($event, 'audio')" accept="audio/*" style="display: none;">
+          <mat-icon class="button-icon">mic</mat-icon>
+      </label>
+      <label *ngIf="showThumb && !hasVoted && canVote && !votingInProgress"
+          class="button-like" (click)="addVote()">
+          <mat-icon class="button-icon">thumb_up</mat-icon>
+      </label>
+      <label *ngIf="showThumb && hasVoted && !votingInProgress" class="button-like"
+          (click)="removeVote()">
+          <mat-icon class="button-icon voted">thumb_up</mat-icon>
+      </label>
+      <label *ngIf="!expanded" class="button-like" (click)="expand()">
+        <mat-icon class="button-icon">open_in_full</mat-icon>
+      </label>
+      <label *ngIf="expanded" class="button-like" (click)="collapse()">
+        <mat-icon class="button-icon">close_fullscreen</mat-icon>
+      </label>
+  </div>
+</ng-template>
+
+<div [ngClass]="{'post-it-scale': true, 'not-positioned': isOnSidebar, 'expanded': expanded, 'stacked-mode': layoutMode === 'stacked'}" [style.transform]="transformStyle" tabindex="0">
+  <div #postIt
+    *ngIf="layoutMode === 'absolute'"
+    cdkDrag
+    tabindex="0"
+    [ngClass]="{'post-it-container': true, 'not-positioned': isOnSidebar, 'expanded': expanded, 'invisible': hideContent}"
+    [style.background]="element.color"
+    [cdkDragDisabled]="preview || !canDrag"
+    (cdkDragEnded)="updatePosition($event)"
+    [cdkDragFreeDragPosition]="position"
+    [cdkDragScale]="!isOnSidebar ? positioning.scale : 1"
+    (dblclick)="editContent()"
+    (mouseenter)="showOptions = true"
+    (mouseleave)="showOptions = false"
+    (blur)="collapseOnBlur()"
+    cdkDragBoundary=".board-content">
+    <ng-container *ngTemplateOutlet="postItContent"></ng-container>
+  </div>
+  <div #postIt
+    *ngIf="layoutMode === 'stacked' || layoutMode === 'grid'"
+    tabindex="0"
+    [ngClass]="{'post-it-container': true, 'not-positioned': isOnSidebar, 'expanded': expanded, 'invisible': hideContent, 'stacked-post-it': layoutMode === 'stacked', 'grid-post-it': layoutMode === 'grid'}"
+    [style.background]="element.color"
+    (dblclick)="editContent()"
+    (mouseenter)="showOptions = true"
+    (mouseleave)="showOptions = false"
+    (blur)="collapseOnBlur()">
+    <ng-container *ngTemplateOutlet="postItContent"></ng-container>
+  </div>
+</div>
+<div *ngIf="drawAudio" class="html2canvas-separator"></div>

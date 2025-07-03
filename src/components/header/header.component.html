@@ -1,0 +1,42 @@
+<mat-toolbar class="rounded floating toolbar">
+  <span class="logo-container" (click)="navigateToHome()">
+    <img class="logo" ngSrc="assets/img/icons/logo.svg" alt="Flowtion logo" height="16" width="16"/>
+    <span class="title">Flowtion</span>
+    <span class="title hide-on-mobile"> - Experiencias de co-diseño virtual</span>
+
+  </span>
+
+  <span class="space-between"></span>
+
+  <p *ngIf="user" class="user-name hide-on-mobile">{{ user.displayName }}</p>
+
+  <!-- Desktop buttons -->
+  <div class="button-group hide-on-mobile" *ngIf="user">
+    <button matTooltip="Perfil" mat-icon-button class="user-button" aria-label="Profile button">
+      <span class="material-symbols-outlined"> account_circle </span>
+    </button>
+    <button matTooltip="Experiencias" mat-icon-button class="user-button" (click)="navigateToDashboard()" aria-label="Dashboard button">
+      <span class="material-symbols-outlined"> dashboard </span>
+    </button>
+    <button matTooltip="Cerrar sesión" mat-icon-button class="user-button" (click)="logOut()" aria-label="Logout button">
+      <span class="material-symbols-outlined"> logout </span>
+    </button>
+  </div>
+
+  <!-- Mobile menu button -->
+  <button mat-icon-button [matMenuTriggerFor]="mobileMenu" class="show-on-mobile" *ngIf="user" aria-label="Mobile menu">
+    <span class="material-symbols-outlined">menu</span>
+  </button>
+
+  <mat-menu #mobileMenu="matMenu">
+    <button mat-menu-item>
+      <span>Perfil</span>
+    </button>
+    <button mat-menu-item (click)="navigateToDashboard()">
+      <span>Experiencias</span>
+    </button>
+    <button mat-menu-item (click)="logOut()">
+      <span>Cerrar sesión</span>
+    </button>
+  </mat-menu>
+</mat-toolbar>

@@ -1,0 +1,45 @@
+.workspace-actions-container {
+  margin: 30px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  flex-direction: row;
+
+  .filter-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+  }
+
+  .add-workspace {
+    width: 150px;
+    background-color: var(--tiffany-blue);
+    color: grey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    white-space: nowrap;
+
+    .btn-icon {
+      margin: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .workspace-actions-container {
+    flex-direction: column;
+
+    .add-workspace {
+      width: 200px;
+      margin: auto;
+    }
+  }
+}
+
+
+
+

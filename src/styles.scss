@@ -1,0 +1,234 @@
+/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$typography: mat.define-theme((
+  typography: (
+    plain-family: 'Quicksand',
+    brand-family: 'Quicksand',
+    bold-weight: 700,
+    medium-weight: 500,
+    regular-weight: 300
+  ),
+));
+
+
+:root {
+  /* Color palette */
+  --hot-pink: #FFAFCC;
+  --dark-pink: #e6729e;
+  --tiffany-blue: #A0E7E5;
+  --turquoise: #4DD1CD;
+  --dark-mint: #7FDB98;
+  --mint: #B4F8C8;
+  --light-mint: #BEFAD0;
+  --yellow: #FBE7C6;
+  --lavander: #DFC5FE;
+  --shadow: #D4D4D4;
+  --dark-shadow: #4B4B4B;
+
+  // Stepper
+  --mat-stepper-header-selected-state-icon-background-color: var(--hot-pink);
+  --mat-stepper-header-done-state-icon-background-color: var(--hot-pink);
+  --mat-stepper-header-edit-state-icon-background-color: var(--hot-pink);
+  --mat-stepper-header-icon-background-color: var(--shadow);
+
+  //Form field
+  --mat-form-field-container-height: 48px;
+  --mat-form-field-filled-with-label-container-padding-top: 18px;
+  --mat-form-field-filled-with-label-container-padding-bottom: 4px;
+
+}
+
+* {
+  font-family: 'Quicksand', sans-serif;
+}
+
+html, body {
+  height: 100%;
+  @include mat.all-component-typographies($typography);
+}
+
+body {
+  margin: 0;
+  background-image: radial-gradient(circle at 1px 1px, var(--shadow) var(--dot-radius, 1px), transparent 0);
+  background-size: var(--dot-size, 30px) var(--dot-size, 30px);
+  background-position: var(--dot-offset-x, 0px) var(--dot-offset-y, 0px);
+  box-sizing: border-box;
+  font-weight: 500;
+}
+
+.mat-typography {
+  font: 500 14px / 20px 'Quicksand', sans-serif;
+}
+
+@font-face {
+    font-family: 'Flowtion';
+    src: url('./assets/fonts/flowtion-font.ttf');
+  }
+
+.mat-mdc-text-field-wrapper{
+    border-radius: 30px !important;
+}
+
+.mat-mdc-floating-label {
+    font-size: 13px !important;
+}
+
+.mat-mdc-dialog-surface {
+  border-radius: 30px !important;
+}
+
+.success {
+    --mdc-snackbar-container-color: var(--mint);
+    --mdc-snackbar-supporting-text-color: var(--dark-shadow);
+    --mat-snack-bar-button-color: var(--dark-shadow);
+    --mdc-snackbar-supporting-text-size: 14px;
+    --mdc-snackbar-supporting-text-weight: 500;
+}
+
+.error {
+    --mdc-snackbar-container-color: var(--hot-pink);
+    --mdc-snackbar-supporting-text-color: var(--dark-shadow);
+    --mat-snack-bar-button-color: var(--dark-shadow);
+    --mdc-snackbar-supporting-text-size: 14px;
+    --mdc-snackbar-supporting-text-weight: 500;
+}
+
+.router-container.loading {
+  opacity: 0.5;
+  pointer-events: none;
+
+  .hide-on-loading {
+    visibility: hidden;
+  }
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  position: absolute;
+  margin: 20% 50%;
+  width: 50px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--lavander);
+  transform-origin: top;
+  display: grid;
+  animation: l3-0 1s infinite linear;
+}
+.loader::before,
+.loader::after {
+  content: "";
+  grid-area: 1/1;
+  background:var(--mint);
+  border-radius: 50%;
+  transform-origin: top;
+  animation: inherit;
+  animation-name: l3-1;
+}
+.loader::after {
+  background: var(--tiffany-blue);
+  --s:180deg;
+}
+@keyframes l3-0 {
+  0%,20% {transform: rotate(0)}
+  100%   {transform: rotate(360deg)}
+}
+@keyframes l3-1 {
+  50% {transform: rotate(var(--s,90deg))}
+  100% {transform: rotate(0)}
+}
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+  border-radius: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 8px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Dropdown select panel */
+.mat-mdc-select-panel {
+  border-radius: 20px !important;
+  margin-top: 20px;
+  padding: 0 !important;
+
+  &::before {
+    content: "";
+    margin-top: 20px;
+    position: absolute;
+    top: -8px;
+    left: 36px;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid white;
+  }
+}
+
+.mat-mdc-select-placeholder, .mat-mdc-select-arrow {
+  color: white !important;
+  letter-spacing: 0.096px !important;
+}
+
+.mat-mdc-form-field-error {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+}
+
+.mat-mdc-form-field-hint {
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: var(--dark-shadow);
+}
+
+.mat-vertical-content, .mat-horizontal-content-container {
+  padding: 0 !important;
+}
+
+.mat-horizontal-stepper-header-container {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: white;
+  border-radius: 20px;
+}
+
+.mat-mdc-dialog-surface {
+  overflow: visible !important;
+}
+
+.mdc-text-field:not(.mdc-text-field--invalid):not(.mdc-text-field--disabled) .mat-mdc-floating-label {
+  color: var(--dark-shadow) !important;
+}
+
+.mat-mdc-floating-label {
+  font-weight: 500 !important;
+
+  &.mdc-floating-label--float-above {
+    font-size: 14px !important;
+  }
+
+}
+
+.mat-mdc-tooltip-surface {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  padding: 10px 8px !important;
+
+}

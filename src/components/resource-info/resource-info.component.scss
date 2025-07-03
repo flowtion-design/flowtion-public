@@ -1,0 +1,29 @@
+:host {
+  position: absolute;
+  top: 0;
+  z-index: 30;
+  pointer-events: auto;
+  max-width: 40%;
+
+  .text {
+    font-size: 16px;
+    margin: 4px;
+
+    strong {
+      font-weight: 500;
+    }
+  }
+
+  .status-ongoing {
+    background-color: #e8f5e9;
+    border-radius: 4px;
+  }
+
+  .status-finished,
+  .status-waiting,
+  .status-paused {
+    background-color: #fff3e0;
+    border-radius: 4px;
+  }
+
+}

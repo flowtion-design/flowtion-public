@@ -1,0 +1,11 @@
+<mat-card class="workspace-card" appearance="raised" >
+    <img mat-card-image class="workspace-image" [src]="workspace.image" alt="{{ workspace.name }}">
+    <mat-card-content class="card-overlay">
+        <div class="card-header">
+            <img class="card-arc" *ngIf="arcUrl" [src]="arcUrl" alt="Workspace arc" />
+            <h4 class="card-title">{{ workspace.name }}</h4>
+            <span class="card-status">Creado: {{workspace.creationDate.toLocaleString()}}</span>
+        </div>
+        <p class="card-description">{{workspace.description}}</p>
+    </mat-card-content>
+</mat-card>

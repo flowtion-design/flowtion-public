@@ -1,0 +1,16 @@
+<form novalidate [formGroup]="formGroup" class="search-bar">
+  <div class="dropdown">
+      <mat-select class="filter status" formControlName="status" placeholder="Filtrar por estado" id="workspace-status">
+        <mat-option>Todas</mat-option>
+        <mat-option *ngFor="let status of ResourceStatusLabels | keyvalue" [value]="status.key">{{status.value}}</mat-option>
+      </mat-select>
+  </div>
+  <div class="search-box">
+    <input class="search-input" type="text" id="workspace-name" formControlName="name" placeholder="Buscar por nombre..." />
+  </div>
+  <div class="search-button">
+    <button type="button" (click)="sendFormChanged()" class="search-button" mat-mini-fab aria-label="Example icon button with a menu icon">
+      <mat-icon>search</mat-icon>
+    </button>
+  </div>
+</form>
