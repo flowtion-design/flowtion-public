@@ -1,8 +1,13 @@
 # Flowtion
 
-Flowtion es una aplicación desarrollada en Angular que facilita la gestión colaborativa de recursos, grupos y flujos de trabajo. Utiliza Firebase como backend y emplea Angular Material para la interfaz de usuario.
+Flowtion es una aplicación desarrollada en Angular que brinda soporte para facilitar experiencias de co-diseño virtual. Utiliza Firebase como backend y emplea Angular Material para la interfaz de usuario.
 
-Este proyecto fue desarrollado en el marco de la tesina de grado de las alumnas **Oriana Florencia Arevalos** y **Candela Mariel Rouaux Servat**.
+Este proyecto fue desarrollado en el marco de la tesina de grado de las alumnas **Oriana Florencia Arevalos** y **Candela Mariel Rouaux Servat**, denominada “Flowtion: Herramienta de soporte para facilitar experiencias de co-diseño virtual”.
+
+En relación con otras herramientas existentes, Flowtion aporta:
+* Plantillas para crear la secuencia de actividades, como así también personalizarlas.
+* Soporte para propagar automáticamente las ideas creadas entre actividades.
+* Posibilidad de monitoreo del acontecer de cada grupo en forma simultánea durante la puesta en práctica del co-diseño.
 
 ## Requisitos previos
 
