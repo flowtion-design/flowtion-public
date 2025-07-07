@@ -8,7 +8,6 @@ import { StorageReference } from "@firebase/storage"
 export default class StorageService {
 
   private storage = getStorage();
-  private arcUrlCache?: Promise<string>;
 
   constructor() {}
 
@@ -64,13 +63,6 @@ export default class StorageService {
   getDownloadUrl(filePath: string): Promise<string> {
     const reference: StorageReference = ref(this.storage, filePath);
     return getDownloadURL(reference)
-  }
-
-  getArcUrl(): Promise<string> {
-    if (!this.arcUrlCache) {
-      this.arcUrlCache = this.getDownloadUrl('wrokspace_arc.png');
-    }
-    return this.arcUrlCache;
   }
 
 }
